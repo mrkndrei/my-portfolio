@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import Link from "next/link";
+import Image from "next/image";
 import { MapPin, Mail, Download, User, Code, Briefcase, GraduationCap, ChevronRight, Sun, Moon, Linkedin, Github, Facebook } from 'lucide-react';
 
 // Add this above your component (or fetch from a data file/service)
@@ -72,10 +73,13 @@ export default function ProfilePage() {
           <div className="flex flex-col lg:flex-row items-start lg:items-end gap-8">
             {/* Profile Image */}
             <div>
-              <img 
-                src="/profile.jpg" 
+              <Image
+                src="/profile.jpg"
                 alt="Mark Andrei Bance"
+                width={192}
+                height={192}
                 className="w-48 h-48 rounded-2xl object-cover"
+                priority
               />
             </div>
 
