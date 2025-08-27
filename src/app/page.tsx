@@ -319,7 +319,7 @@ I specialize in building intuitive, user-focused applications and experimenting 
 
             {/* Subheader */}
             <div>
-              <p className={`text-sm font-semibold ${isDark ? "text-gray-200" : "text-gray-900"}`}>Let&apos;s Get Connected!</p>
+              <p className={`text-sm font-semibold ${isDark ? "text-gray-200" : "text-gray-900"}`}>Let&#39;s Get Connected!</p>
             </div>
 
             {/* Email */}
