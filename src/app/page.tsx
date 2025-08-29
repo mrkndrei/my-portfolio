@@ -177,12 +177,17 @@ I specialize in building intuitive, user-focused applications and experimenting 
                     Skills
                   </h2>
                 </div>
-                <button className={`flex items-center gap-1 text-sm transition-colors duration-300 ${
-                  isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-600 hover:text-gray-700'
-                }`}>
+                <Link
+                  href="/skills"
+                  className={`flex items-center gap-1 text-sm transition-colors duration-300 ${
+                    isDark
+                      ? "text-gray-400 hover:text-gray-300"
+                      : "text-gray-600 hover:text-gray-700"
+                  }`}
+                >
                   View All
                   <ChevronRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
 
               <div className="space-y-6">
@@ -324,13 +329,13 @@ I specialize in building intuitive, user-focused applications and experimenting 
 
             {/* Email */}
             <a
-              href="mailto:markandreibance@gmail.com"
+              href="mailto:markandreidbance@gmail.com"
               className={`w-full px-3 py-2 rounded-md flex flex-col cursor-pointer transition-colors duration-200 ${
                 isDark ? "bg-gray-700 hover:bg-gray-600" : "bg-gray-100 hover:bg-gray-200"
               }`}
             >
               <span className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}>Email</span>
-              <span className={`text-sm ${isDark ? "text-gray-100" : "text-gray-900"}`}>markandreibance@gmail.com</span>
+              <span className={`text-sm ${isDark ? "text-gray-100" : "text-gray-900"}`}>markandreidbance@gmail.com</span>
             </a>
 
             {/* Social Links */}

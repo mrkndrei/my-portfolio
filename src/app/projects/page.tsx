@@ -45,7 +45,7 @@ export default function ProjectsPage() {
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12">
+    <div className="max-w-5xl mx-auto px-6 py-12 animate-fadeup">
       {/* Back button */}
       <Link
         href="/"
@@ -111,6 +111,20 @@ export default function ProjectsPage() {
           </a>
         ))}
       </div>
+      {/* Footer */}
+        <div>
+          <footer
+            className={`mt-20 pt-6 border-t text-center transition-colors duration-300
+              ${isDark
+                ? "border-gray-700 text-gray-500"
+                : "border-gray-200 text-gray-400"
+              }`}
+          >
+            <span>
+              © {new Date().getFullYear()} Mark Andrei Bance. All rights reserved.
+            </span>
+          </footer>
+        </div>
     </div>
   );
 }
