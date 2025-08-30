@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Mail, Download, User, Code, Briefcase, GraduationCap, ChevronRight, Sun, Moon, Linkedin, Github, Facebook } from 'lucide-react';
+import { useTheme } from "@/context/ThemeContext";
 
 // Add this above your component (or fetch from a data file/service)
 const projects = [
@@ -24,7 +25,7 @@ const projects = [
 ];
 
 export default function ProfilePage() {
-  const [isDark, setIsDark] = React.useState(false);
+  const { isDark, toggleTheme } = useTheme();
   const sectionRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
@@ -94,16 +95,16 @@ export default function ProfilePage() {
                   </h1>
                   {/* Theme Toggle under name, on the right */}
                   <button
-                    onClick={() => setIsDark(!isDark)}
-                    className={`ml-2 p-2 rounded-full transition-all duration-300 cursor-pointer w-fit
-                      ${isDark 
-                        ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400' 
-                        : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
-                      }`}
-                    aria-label="Toggle dark mode"
-                  >
-                    {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                  </button>
+        onClick={toggleTheme}
+        className={`ml-2 p-2 rounded-full transition-all duration-300 cursor-pointer w-fit
+          ${isDark 
+            ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400' 
+            : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+          }`}
+        aria-label="Toggle dark mode"
+      >
+        {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      </button>
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className={`w-4 h-4 ${isDark ? 'text-gray-400' : 'text-gray-600'}`} />
@@ -442,8 +443,12 @@ I specialize in building intuitive, user-focused applications and experimenting 
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className={`px-2 py-0.5 text-xs rounded bg-blue-100 text-blue-600 dark:bg-blue-400 dark:text-white`}
-                        >
+                          className={`px-2 py-0.5 text-xs rounded ${
+                            isDark
+                              ? "bg-blue-900/40 text-blue-300"
+                              : "bg-blue-100 text-blue-700"
+                          }`}
+                          >
                           {tag}
                         </span>
                       ))}

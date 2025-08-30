@@ -2,7 +2,8 @@
 
 import { ArrowLeft, Code, Filter } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useTheme } from "@/context/ThemeContext"; // Import context  
 
 import {
   DropdownMenu,
@@ -89,16 +90,11 @@ const badgeColors = (level: string, isDark: boolean) => {
 };
 
 export default function SkillsPage() {
-  const [isDark, setIsDark] = useState(false);
+  const { isDark } = useTheme(); // Get shared theme state
   const [filter, setFilter] = useState("All");
 
-  useEffect(() => {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setIsDark(true);
-    }
-  }, []);
-
   return (
+    <div className={`min-h-screen pt-10 pb-4 transition-all duration-300 ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
     <div className="max-w-4xl mx-auto px-6 py-12 animate-fadeup">
       {/* Back button */}
       <Link
@@ -137,12 +133,12 @@ export default function SkillsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-1"
+                className={`flex items-center gap-1 cursor-pointer ${isDark ? "bg-gray-800 hover:bg-gray-700 text-white/80 hover:text-white border-white/20" : "border-gray-300" }`}
               >
                 {filter} Exposure
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className={`${isDark ? "bg-gray-800 border-white/20 text-white/80" : "border-gray-300" }`}>
               <DropdownMenuLabel>Filter by Level</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setFilter("All")}>
@@ -199,6 +195,7 @@ export default function SkillsPage() {
         })}
       </div>
       
+    </div>
     </div>
   );
 }
