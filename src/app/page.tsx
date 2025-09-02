@@ -1,10 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Mail, Download, User, Code, Briefcase, GraduationCap, ChevronRight, Sun, Moon, Linkedin, Github, Facebook } from 'lucide-react';
 import { useTheme } from "@/context/ThemeContext";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 
 // Add this above your component (or fetch from a data file/service)
 const projects = [
@@ -26,6 +29,7 @@ const projects = [
 
 export default function ProfilePage() {
   const { isDark, toggleTheme } = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
   const sectionRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
@@ -36,6 +40,24 @@ export default function ProfilePage() {
       }
     });
   }, []);
+
+  function ProfileImage({ isLoading }: { isLoading: boolean }) {
+  return (
+    <div className="relative w-48 h-48">
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-lg" />
+      )}
+
+      <Image
+        src="/profile.jpg"
+        alt="Project"
+        fill
+        className="object-cover rounded-lg"
+        onLoad={() => setIsLoading(false)} // only hides skeleton when image finishes loading
+      />
+    </div>
+  );
+}
 
   const setSectionRef = (idx: number) => (el: HTMLDivElement | null) => {
     sectionRefs.current[idx] = el;
@@ -74,14 +96,7 @@ export default function ProfilePage() {
           <div className="flex flex-col lg:flex-row items-start lg:items-end gap-8">
             {/* Profile Image */}
             <div>
-              <Image
-                src="/profile.jpg"
-                alt="Mark Andrei Bance"
-                width={192}
-                height={192}
-                className="w-48 h-48 rounded-2xl object-cover"
-                priority
-              />
+              <ProfileImage isLoading={isLoading} />
             </div>
 
             <div className="flex-1 space-y-4">
@@ -123,7 +138,9 @@ export default function ProfilePage() {
               <div className="flex flex-wrap gap-2">
                 <a
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-colors duration-300
-                    ${isDark ? "bg-blue-800/20 text-white border border-blue-800/80 hover:bg-blue-800/30" : "bg-[#1e1e1e] text-white border"}`}
+                    ${isDark 
+                    ? "bg-blue-800/20 text-white border border-blue-800/80 hover:bg-blue-800/30" 
+                    : "bg-[#1e1e1e] text-white border"}`}
                   href="mailto:markandreidbance@gmail.com"
                 >
                   <Mail className="w-4 h-4" />
@@ -135,7 +152,7 @@ export default function ProfilePage() {
                   className={`flex items-center gap-2 border px-6 py-3 rounded-xl transition-colors duration-300 ${
                     isDark 
                       ? 'border-gray-600 text-gray-300 hover:bg-gray-800' 
-                      : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                      : 'border-gray-300 text-gray-700 hover:bg-gray-100'
                   }`}
                 >
                   <Download className="w-4 h-4" />
@@ -151,7 +168,7 @@ export default function ProfilePage() {
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-4">
             {/* About Section */}
-            <div ref={setSectionRef(1)} className={`rounded-2xl p-8 transition-all duration-300 backdrop-blur-sm border ${
+            <div ref={setSectionRef(1)} className={`rounded-2xl p-6 lg:p-8 transition-all duration-300 backdrop-blur-sm border ${
               isDark 
                 ? 'bg-gray-800/80 border-gray-700 shadow-xl shadow-gray-900/30' 
                 : 'bg-white/80 border-gray-200 shadow-xl shadow-gray-200/30'
@@ -166,7 +183,7 @@ export default function ProfilePage() {
 I specialize in building intuitive, user-focused applications and experimenting with algorithms to solve real-world problems. With experience in mobile app development, automation workflows, and middleware integration, I'm passionate about creating solutions that simplify everyday tasks. </p>            </div>
 
             {/* Skills Section */}
-            <div ref={setSectionRef(2)} className={`rounded-2xl p-8 transition-all duration-300 backdrop-blur-sm border ${
+            <div ref={setSectionRef(2)} className={`rounded-2xl p-6 lg:p-8 transition-all duration-300 backdrop-blur-sm border ${
               isDark 
                 ? 'bg-gray-800/80 border-gray-700 shadow-xl shadow-gray-900/30' 
                 : 'bg-white/80 border-gray-200 shadow-xl shadow-gray-200/30'
@@ -279,7 +296,7 @@ I specialize in building intuitive, user-focused applications and experimenting 
             </div>
 
             {/* Education Section */}
-            <div ref={setSectionRef(4)} className={`rounded-2xl p-8 transition-all duration-300 backdrop-blur-sm border ${
+            <div ref={setSectionRef(4)} className={`rounded-2xl p-6 lg:p-8 transition-all duration-300 backdrop-blur-sm border ${
               isDark 
                 ? 'bg-gray-800/80 border-gray-700 shadow-xl shadow-gray-900/30' 
                 : 'bg-white/80 border-gray-200 shadow-xl shadow-gray-200/30'
@@ -311,7 +328,7 @@ I specialize in building intuitive, user-focused applications and experimenting 
           {/* Contact Section */}
           <div
             ref={setSectionRef(5)}
-            className={`p-6 rounded-2xl border flex flex-col gap-6 shadow-md transition-all duration-300 order-2 lg:order-1 ${
+            className={`p-6 lg:p-8 rounded-2xl border flex flex-col gap-6 shadow-md transition-all duration-300 order-2 lg:order-1 ${
               isDark
                 ? "bg-gray-800/80 border-gray-700 shadow-xl shadow-gray-900/30"
                 : "bg-white border-gray-200 shadow-xl shadow-gray-200/30"
@@ -383,7 +400,7 @@ I specialize in building intuitive, user-focused applications and experimenting 
           {/* Projects Section */}
           <div ref={setSectionRef(6)} className="lg:col-span-2 order-1 lg:order-2">
             <div
-              className={`rounded-2xl p-5 h-full transition-all duration-300 backdrop-blur-sm border ${
+              className={`rounded-2xl p-6 lg:p-8 h-full transition-all duration-300 backdrop-blur-sm border ${
                 isDark
                   ? "bg-gray-800/80 border-gray-700 shadow-xl shadow-gray-900/30"
                   : "bg-white/80 border-gray-200 shadow-xl shadow-gray-200/30"

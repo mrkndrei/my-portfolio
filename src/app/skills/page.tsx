@@ -138,19 +138,53 @@ export default function SkillsPage() {
                 {filter} Exposure
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className={`${isDark ? "bg-gray-800 border-white/20 text-white/80" : "border-gray-300" }`}>
+            <DropdownMenuContent
+              align="end"
+              className={`${isDark 
+                ? "bg-gray-800 border-white/20 text-white/80" 
+                : "border-gray-300 bg-white text-gray-700"}`
+              }
+            >
               <DropdownMenuLabel>Filter by Level</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setFilter("All")}>
+
+              <DropdownMenuItem
+                onClick={() => setFilter("All")}
+                className={`cursor-pointer ${isDark
+                  ? "data-[highlighted]:bg-gray-700 data-[highlighted]:text-white" 
+                  : "data-[highlighted]:bg-gray-100 data-[highlighted]:text-gray-900"}`
+                }
+              >
                 All Skills
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilter("High")}>
+
+              <DropdownMenuItem
+                onClick={() => setFilter("High")}
+                className={`cursor-pointer ${isDark 
+                  ? "data-[highlighted]:bg-gray-700 data-[highlighted]:text-white" 
+                  : "data-[highlighted]:bg-gray-100 data-[highlighted]:text-gray-900"}`
+                }
+              >
                 High Exposure
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilter("Medium")}>
+
+              <DropdownMenuItem
+                onClick={() => setFilter("Medium")}
+                className={`cursor-pointer ${isDark 
+                  ? "data-[highlighted]:bg-gray-700 data-[highlighted]:text-white" 
+                  : "data-[highlighted]:bg-gray-100 data-[highlighted]:text-gray-900"}`
+                }
+              >
                 Medium Exposure
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilter("Low")}>
+
+              <DropdownMenuItem
+                onClick={() => setFilter("Low")}
+                className={`cursor-pointer ${isDark 
+                  ? "data-[highlighted]:bg-gray-700 data-[highlighted]:text-white" 
+                  : "data-[highlighted]:bg-gray-100 data-[highlighted]:text-gray-900"}`
+                }
+              >
                 Low Exposure
               </DropdownMenuItem>
             </DropdownMenuContent>

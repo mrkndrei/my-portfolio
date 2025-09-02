@@ -3,6 +3,7 @@
 import { Briefcase, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { useTheme } from "@/context/ThemeContext"; // Import context
 
 const projects = [
@@ -39,6 +40,26 @@ const projects = [
     thumbnail: "/thumbnails/placeholder.jpg",
   },
 ];
+
+function ProjectThumbnail({ src, alt }: { src: string; alt: string }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <div className="relative w-full h-48">
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+      )}
+
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover"
+        onLoad={() => setIsLoading(false)}
+      />
+    </div>
+  );
+}
 
 export default function ProjectsPage() {
   const { isDark } = useTheme(); // Get shared theme state
@@ -91,14 +112,7 @@ export default function ProjectsPage() {
             }`}
           >
             {/* Thumbnail */}
-            <div className="w-full h-48 relative">
-              <Image
-                src={proj.thumbnail}
-                alt={proj.title}
-                fill
-                className="object-cover"
-              />
-            </div>
+            <ProjectThumbnail src={proj.thumbnail} alt={proj.title} />
 
             {/* Content */}
             <div className="p-5">
