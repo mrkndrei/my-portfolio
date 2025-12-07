@@ -8,24 +8,37 @@ import { useTheme } from "@/context/ThemeContext";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
+// Types
+type Project = {
+  title: string;
+  description: string;
+  link: string;
+  type: "Personal" | "Client";
+};
 
-// Add this above your component (or fetch from a data file/service)
-const projects = [
+const projects: Project[] = [
   {
-    title: "IloCommute",
-    description:
-      "A mobile app built with React Native that helps commuters in Iloilo City find the best jeepney routes using Dijkstra’s algorithm.",
-    tags: ["React Native", "Expo", "Node.js", "MongoDB"],
-    link: "",
+    title: "Jenesia Red",
+    description: "Client portfolio landing page built in GoHighLevel.",
+    link: "https://jenesiared.com/",
+    type: "Client",
   },
   {
-    title: "AI Flashcards",
-    description:
-      "Personal project to aid my girlfriend in studying by generating flashcards from notes and PDFs.",
-    tags: ["Next.js", "Tailwind", "OpenRouter", "AI"],
-    link: "",
+    title: "HexLab",
+    description: "A comprehensive color tool that converts Hex to RGB, HSL, CMYK, and generates color shades and harmonies.",
+    link: "https://hexlab-tool.vercel.app/",
+    type: "Personal",
   },
 ];
+
+function getDomain(url: string) {
+  try {
+    const domain = new URL(url).hostname;
+    return domain.startsWith("www.") ? domain.slice(4) : domain;
+  } catch {
+    return url;
+  }
+}
 
 export default function ProfilePage() {
   const { isDark, toggleTheme } = useTheme();
@@ -63,10 +76,27 @@ export default function ProfilePage() {
     sectionRefs.current[idx] = el;
   };
 
-  const skills = {
-    "Web Development & Programming": ["JavaScript", "React", "Next.js", "Tailwind CSS", "GSAP"],
-    "CMS Platforms": ["GoHighLevel", "Kajabi", "Showit", "WordPress", "Framer", "Webflow"],
-    "Design Tools": ["Figma", "Adobe Illustrator", "Adobe Photoshop"]
+  type Skill = {
+    name: string;
+    icon: string | React.ElementType;
+  };
+
+  const skills: Record<string, Skill[]> = {
+    "Core Tech Stack": [
+      { name: "JavaScript", icon: "https://cdn.simpleicons.org/javascript" },
+      { name: "React", icon: "https://cdn.simpleicons.org/react" },
+      { name: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs" },
+      { name: "Tailwind CSS", icon: "https://cdn.simpleicons.org/tailwindcss" },
+      { name: "Node.js", icon: "https://cdn.simpleicons.org/nodedotjs" },
+    ],
+    "CMS Platforms": [
+      { name: "GoHighLevel", icon: "https://cdn.brandfetch.io/idK-hvK7Lv/w/200/h/200/theme/dark/icon.jpeg?c=1bxid64Mup7aczewSAYMX&t=1692001846848" },
+      { name: "Kajabi", icon: "https://cdn.brandfetch.io/idDDho9RcJ/theme/dark/symbol.svg?c=1bxid64Mup7aczewSAYMX&t=1732695044236" },
+      { name: "Showit", icon: "https://cdn.brandfetch.io/idl_2Bpl9t/w/32/h/32/theme/dark/logo.png?c=1bxid64Mup7aczewSAYMX&t=1759271339665" },
+      { name: "Shopify", icon: "https://cdn.brandfetch.io/idAgPm7IvG/theme/dark/symbol.svg?c=1bxid64Mup7aczewSAYMX&t=1720758863540"},
+      { name: "WordPress", icon: "https://cdn.simpleicons.org/wordpress" },
+      { name: "Webflow", icon: "https://cdn.simpleicons.org/webflow" },
+    ],
   };
 
   const experience = [
@@ -217,19 +247,29 @@ I specialize in building intuitive, user-focused applications and experimenting 
                       {category}
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                      {skillList.map((skill) => (
-                        <span
-                          key={skill}
-                          className={`px-3 py-1 text-xs rounded-lg border transition-colors duration-200 ${
-                            isDark 
-                              ? 'border-gray-600 bg-gray-700/50 text-gray-300 hover:bg-gray-600/50' 
-                              : 'border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100'
-                          }`}
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+                  {skillList.map((skill) => (
+                    <span
+                      key={skill.name}
+                      className={`flex items-center gap-2 px-3 py-2 text-xs rounded-md border transition-colors ${
+                        isDark ? "border-gray-700 bg-gray-700/50 text-gray-200 hover:bg-gray-600/50" : "border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100"
+                      }`}
+                    >
+                      {typeof skill.icon === 'string' ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img 
+                          src={skill.icon} 
+                          alt={`${skill.name} icon`}
+                          className="w-4 h-4 object-contain"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <skill.icon className={`w-4 h-4 ${isDark ? "text-blue-400" : "text-blue-600"}`} />
+                      )}
+                      
+                      <span>{skill.name}</span>
+                    </span>
+                  ))}
+                </div>
                   </div>
                 ))}
               </div>
@@ -438,39 +478,44 @@ I specialize in building intuitive, user-focused applications and experimenting 
 
               {/* Project Cards */}
               <div className="grid gap-4 md:grid-cols-2">
-                {projects.map((project) => (
-                  <a
-                    key={project.title}
-                    // href={project.link}
-                    // // target="_blank"
-                    // rel="noopener noreferrer"
-                    className={`group p-5 rounded-xl border transition-colors duration-200 ${
-                      isDark
-                        ? "bg-gray-700/50 border-gray-600 hover:bg-gray-700"
-                        : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-                    }`}
-                  >
-                    <h3 className={`font-semibold mb-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+                {projects.map((project, i) => (
+                  <div
+                  key={i}
+                  className={`relative block rounded-xl border transition overflow-hidden h-full flex flex-col ${
+                    isDark
+                      ? "bg-gray-700/50 border-gray-600 shadow-gray-900/10"
+                      : "bg-gray-50 border-gray-200 shadow-gray-200/10"
+                  }`}
+                >
+                  {/* Content */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3
+                      className={`font-semibold mb-2 text-lg ${
+                        isDark ? "text-white" : "text-gray-900"
+                      }`}
+                    >
                       {project.title}
                     </h3>
-                    <p className={`${isDark ? "text-gray-300" : "text-gray-700"} text-sm mb-2`}>
+                    <p
+                      className={`mb-3 text-sm ${
+                        isDark ? "text-gray-300" : "text-gray-600"
+                      }`}
+                    >
                       {project.description}
                     </p>
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className={`px-2 py-0.5 text-xs rounded ${
-                            isDark
-                              ? "bg-blue-900/40 text-blue-300"
-                              : "bg-blue-100 text-blue-700"
-                          }`}
-                          >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </a>
+            
+                    {/* Link Below Description */}
+                    <a 
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer" 
+                      className="font-mono text-xs bg-gray-50 hover:bg-gray-100 px-2 py-1 rounded-sm block w-fit mt-auto"
+                      style={{ color: "#757575"}}
+                    >
+                      {getDomain(project.link)}
+                    </a>
+                  </div>
+                </div>
                 ))}
               </div>
             </div>
