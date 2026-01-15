@@ -101,12 +101,12 @@ export default function ProfilePage() {
 
   const experience = [
     {
-      role: "Product Designer",
+      role: "Frontend Developer",
       company: "VIP Scale",
       period: "April 2025 - Present"
     },
     {
-      role: "Intern",
+      role: "Marketing Intern",
       company: "Tanom IT Solutions", 
       period: "Nov 2024 - April 2025"
     }
