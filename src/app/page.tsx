@@ -18,15 +18,15 @@ type Project = {
 
 const projects: Project[] = [
   {
-    title: "Jenesia Red",
-    description: "Client portfolio landing page built in GoHighLevel.",
-    link: "https://jenesiared.com/",
-    type: "Client",
-  },
-  {
     title: "HexLab",
     description: "A comprehensive color tool that converts Hex to RGB, HSL, CMYK, and generates color shades and harmonies.",
     link: "https://hexlab-tool.vercel.app/",
+    type: "Personal",
+  },
+  {
+    title: "AI Flashcard Generator",
+    description: "A tool that generates study flashcards from notes and PDFs using AI integration with n8n and OpenRouter.",
+    link: "https://formyann-studyhub.lovable.app/",
     type: "Personal",
   },
 ];
@@ -479,9 +479,12 @@ I specialize in building intuitive, user-focused applications and experimenting 
               {/* Project Cards */}
               <div className="grid gap-4 md:grid-cols-2">
                 {projects.map((project, i) => (
-                  <div
+                  <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   key={i}
-                  className={`relative block rounded-xl border transition overflow-hidden h-full flex flex-col ${
+                  className={`relative block rounded-xl border transition overflow-hidden h-full flex flex-col hover:-translate-y-1 hover:shadow-lg ${
                     isDark
                       ? "bg-gray-700/50 border-gray-600 shadow-gray-900/10"
                       : "bg-gray-50 border-gray-200 shadow-gray-200/10"
@@ -505,17 +508,15 @@ I specialize in building intuitive, user-focused applications and experimenting 
                     </p>
             
                     {/* Link Below Description */}
-                    <a 
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer" 
-                      className="font-mono text-xs bg-gray-50 hover:bg-gray-100 px-2 py-1 rounded-sm block w-fit mt-auto"
-                      style={{ color: "#757575"}}
+                    <span 
+                      className={`font-mono text-xs hover:underline block w-fit mt-auto ${
+                        isDark ? "text-gray-400 hover:text-gray-300" : "text-gray-600 hover:text-gray-700"
+                      }`}
                     >
                       {getDomain(project.link)}
-                    </a>
+                    </span>
                   </div>
-                </div>
+                </a>
                 ))}
               </div>
             </div>
